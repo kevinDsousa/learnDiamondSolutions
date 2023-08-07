@@ -1,0 +1,1 @@
+{"version":3,"file":"stats.js","sourceRoot":"","sources":["../../../src/data/consts/stats.ts"],"names":[],"mappings":";;;AAAa,QAAA,KAAK,GAAG;IACjB;QACI,WAAW,EAAE,EAAE;QACf,MAAM,EAAE,IAAI;KACf;IACD;QACI,WAAW,EAAE,EAAE;QACf,MAAM,EAAE,QAAQ;KACnB;IACD;QACI,WAAW,EAAE,EAAE;QACf,MAAM,EAAE,SAAS;KACpB;CACJ,CAAC"}
