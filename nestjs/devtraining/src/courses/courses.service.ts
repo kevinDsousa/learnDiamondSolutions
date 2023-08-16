@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { Tag } from './entities/tag.entity/tag.entity';
+import { Tag } from './entities/tag.entity';
 
 @Injectable()
 export class CoursesService {
@@ -54,7 +54,7 @@ export class CoursesService {
       ));
 
     const course = await this.courseRepository.preload({
-      id: +id,
+      id: id,
       ...updateCourseDto,
       tags,
     });
