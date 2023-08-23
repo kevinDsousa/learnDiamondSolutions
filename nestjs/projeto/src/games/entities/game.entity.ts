@@ -1,12 +1,25 @@
-import { Company } from 'src/companies/entities/company.entity';
-import { Console } from 'src/consoles/entities/console.entity';
+import { Column, JoinTable, ManyToOne, PrimaryColumn } from 'typeorm';
 
 export class Game {
+
+  @PrimaryColumn()
   id: string;
+
+  @Column()
   name: string;
+
+  @Column()
   describe: string;
+
+  @Column()
   releaseDate: Date;
+
+  @Column()
   website: string;
+
+  @JoinTable()
   company: Company;
-  console: Console;
+
+  @JoinTable()
+  console: ConsoleEntity;
 }

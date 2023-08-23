@@ -3,32 +3,35 @@ import { Company } from 'src/companies/entities/company.entity';
 
 export class CreateGameDto {
   @IsString()
-  id: string;
+  readonly id: string;
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  readonly name: string;
 
   @IsString()
   @IsNotEmpty()
-  describe: string;
+  readonly describe: string;
 
   @IsDate()
   @IsNotEmpty()
-  releaseDate: Date;
+  readonly releaseDate: Date;
 
   @IsString()
   @IsNotEmpty()
   @IsUrl()
-  website: string;
+  readonly website: string;
 
   @IsString()
   @IsNotEmpty()
-  company: Company;
+  readonly company: Company;
 
   @IsString()
   @IsNotEmpty()
   @IsUrl()
-  url: string;
-  console: Console;
+  readonly url: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly console: Console[];
 }
