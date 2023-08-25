@@ -1,20 +1,20 @@
-import { IsDate, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateGameDto {
-  @IsMongoId()
-  readonly id: string;
   @IsString()
   @IsNotEmpty()
   readonly name: string;
   @IsString()
   @IsNotEmpty()
   readonly describe: string;
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
-  readonly releaseDate: Date;
+  readonly releaseDate: string;
   @IsString()
   @IsNotEmpty()
   readonly website: string;
-  // readonly company: ;
-  // readonly console: ;
+  @IsMongoId()
+  readonly console: string;
+  @IsMongoId()
+  readonly developer: string;
 }

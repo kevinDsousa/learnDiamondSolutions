@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ConsolesService } from './consoles.service';
 import { CreateConsoleDto } from './dto/create-console.dto';
 import { UpdateConsoleDto } from './dto/update-console.dto';
@@ -24,11 +32,11 @@ export class ConsolesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateConsoleDto: UpdateConsoleDto) {
-    return this.consolesService.update(+id, updateConsoleDto);
+    return this.consolesService.update(id, updateConsoleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.consolesService.remove(+id);
+    return this.consolesService.remove(id);
   }
 }

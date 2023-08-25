@@ -1,9 +1,13 @@
+import { Consoles } from 'src/consoles/models/consoles.modules';
+import { Developers } from 'src/developer/models/developers.modules';
+
 export class GameEntity {
-  id: string;
   name: string;
   describe: string;
-  releaseDate: Date;
+  dataRelease: Date;
   website: string;
-  // company: Company;
-  // console: ;
+  developer: Developers;
+  gender: string;
+  urlCover: string;
+  consoles: Consoles;
 }

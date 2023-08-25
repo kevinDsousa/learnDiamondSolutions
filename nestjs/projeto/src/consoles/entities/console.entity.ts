@@ -1,6 +1,5 @@
 export class Console {
-  readonly id: number;
   readonly name: string;
-  readonly dataRelease: Date;
+  readonly dataRelease: string;
   readonly company: string;
 }

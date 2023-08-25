@@ -11,23 +11,46 @@ export class GamesService {
     @InjectModel('Games')
     private readonly developerModel: Model<Games>,
   ) {}
-  create(createGameDto: CreateGameDto) {
-    return createGameDto;
+  public async create(createGameDto: CreateGameDto) {
+    try {
+      const createGame = await this.developerModel.create(createGameDto);
+      return createGame;
+    } catch (error) {
+      throw new Error(`Erro ao criar um game: ${error.message}`);
+    }
   }
 
-  findAll() {
-    return this.developerModel.findOne();
+  public async findAll() {
+    return this.developerModel.find();
   }
 
   findOne(id: number) {
     return this.developerModel.findById(id);
   }
 
-  update(id: number, updateGameDto: UpdateGameDto) {
-    return updateGameDto;
+  public async update(id: string, updateGameDto: UpdateGameDto) {
+    const filter = { _id: id };
+
+    try {
+      const updateGame = await this.developerModel.findByIdAndUpdate(
+        filter,
+        updateGameDto,
+        { new: true },
+      );
+      return updateGame;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar o game: ${error.message}`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  public async remove(id: string) {
+    const filter = { _id: id };
+
+    try {
+      const deleteGame = await this.developerModel.findByIdAndDelete(filter);
+      return deleteGame;
+    } catch (error) {
+      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    }
   }
 }

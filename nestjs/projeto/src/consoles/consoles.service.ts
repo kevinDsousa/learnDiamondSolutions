@@ -13,7 +13,12 @@ export class ConsolesService {
   ) {}
 
   public async create(createConsoleDto: CreateConsoleDto) {
-    return createConsoleDto;
+    try {
+      const createConsole = await this.consolesModel.create(createConsoleDto);
+      return createConsole;
+    } catch (error) {
+      throw new Error(`Erro ao criar um console: ${error.message}`);
+    }
   }
 
   public async findAll() {
@@ -24,11 +29,29 @@ export class ConsolesService {
     return this.consolesModel.findById(id);
   }
 
-  public async update(id: number, updateConsoleDto: UpdateConsoleDto) {
-    return updateConsoleDto;
+  public async update(id: string, updateConsoleDto: UpdateConsoleDto) {
+    const filter = { _id: id };
+
+    try {
+      const updateConsole = await this.consolesModel.findByIdAndUpdate(
+        filter,
+        updateConsoleDto,
+        { new: true },
+      );
+      return updateConsole;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar o console: ${error.message}`);
+    }
   }
 
-  public async remove(id: number) {
-    return `This action removes a #${id} console`;
+  public async remove(id: string) {
+    const filter = { _id: id };
+
+    try {
+      const deleteConsole = await this.consolesModel.findByIdAndDelete(filter);
+      return deleteConsole;
+    } catch (error) {
+      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    }
   }
 }

@@ -1,16 +1,13 @@
-import { IsDate, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateDeveloperDto {
-  @IsMongoId()
-  id: string;
-
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
-  dataFoundation: Date;
+  dataFoundation: string;
 
   @IsString()
   @IsNotEmpty()

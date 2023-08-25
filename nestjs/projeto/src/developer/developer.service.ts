@@ -12,8 +12,14 @@ export class DeveloperService {
     private readonly developerModel: Model<Developer>,
   ) {}
 
-  create(createDeveloperDto: CreateDeveloperDto) {
-    return createDeveloperDto;
+  async create(createDeveloperDto: CreateDeveloperDto) {
+    try {
+      const createDeveloper =
+        await this.developerModel.create(createDeveloperDto);
+      return createDeveloper;
+    } catch (error) {
+      throw new Error(`Erro ao criar um developer ${error.message}`);
+    }
   }
 
   findAll() {
@@ -24,11 +30,29 @@ export class DeveloperService {
     return this.developerModel.findById(id);
   }
 
-  update(id: number, updateDeveloperDto: UpdateDeveloperDto) {
-    return updateDeveloperDto;
+  async update(id: string, updateDeveloperDto: UpdateDeveloperDto) {
+    const filter = { _id: id };
+
+    try {
+      const updateDeveloper = await this.developerModel.findByIdAndUpdate(
+        filter,
+        updateDeveloperDto,
+        { new: true },
+      );
+      return updateDeveloper;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar o developer: ${error.message}`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} developer`;
+  async remove(id: string) {
+    const filter = { _id: id };
+
+    try {
+      const deleteConsole = await this.developerModel.findOneAndDelete(filter);
+      return deleteConsole;
+    } catch (error) {
+      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    }
   }
 }

@@ -1,7 +1,6 @@
 export class Developer {
-  readonly id: string;
   readonly name: string;
-  readonly dataFoundation: Date;
+  readonly dataFoundation: string;
   readonly website: string;
   readonly headquarters: string;
 }

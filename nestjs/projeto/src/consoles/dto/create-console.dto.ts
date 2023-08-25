@@ -1,16 +1,13 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateConsoleDto {
-  @IsNumber()
-  id: number;
-
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
-  dataRelease: Date;
+  dataRelease: string;
 
   @IsString()
   @IsNotEmpty()
