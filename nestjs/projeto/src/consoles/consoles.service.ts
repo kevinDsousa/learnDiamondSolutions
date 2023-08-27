@@ -4,6 +4,8 @@ import { UpdateConsoleDto } from './dto/update-console.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Consoles } from './models/consoles.modules';
 import { Model } from 'mongoose';
+import { NotFoundError } from 'src/common/types/NotFoundError';
+import { Console } from './entities/console.entity';
 
 @Injectable()
 export class ConsolesService {
@@ -13,45 +15,47 @@ export class ConsolesService {
   ) {}
 
   public async create(createConsoleDto: CreateConsoleDto) {
-    try {
-      const createConsole = await this.consolesModel.create(createConsoleDto);
-      return createConsole;
-    } catch (error) {
-      throw new Error(`Erro ao criar um console: ${error.message}`);
+    const createConsole = await this.consolesModel.create(createConsoleDto);
+    if (!createConsole) {
+      throw new Error('teste');
     }
+    return createConsole;
   }
 
   public async findAll() {
     return this.consolesModel.find();
   }
 
-  public async findOne(id: number) {
-    return this.consolesModel.findById(id);
+  public async findOne(id: string): Promise<Console> {
+    const filter = { _id: id };
+
+    const findConsole = this.consolesModel.findById(filter);
+    if (!findConsole) {
+      throw new NotFoundError('Console não encontrado');
+    }
+    return findConsole;
   }
 
   public async update(id: string, updateConsoleDto: UpdateConsoleDto) {
     const filter = { _id: id };
-
-    try {
-      const updateConsole = await this.consolesModel.findByIdAndUpdate(
-        filter,
-        updateConsoleDto,
-        { new: true },
-      );
-      return updateConsole;
-    } catch (error) {
-      throw new Error(`Erro ao atualizar o console: ${error.message}`);
+    const updateConsole = await this.consolesModel.findByIdAndUpdate(
+      filter,
+      updateConsoleDto,
+      { new: true },
+    );
+    if (!updateConsole) {
+      throw new NotFoundError(`Não foi possivel atualizar o objeto ${filter}`);
     }
+    return updateConsole;
   }
 
   public async remove(id: string) {
     const filter = { _id: id };
+    const deleteConsole = await this.consolesModel.findByIdAndDelete(filter);
 
-    try {
-      const deleteConsole = await this.consolesModel.findByIdAndDelete(filter);
-      return deleteConsole;
-    } catch (error) {
-      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    if (!deleteConsole) {
+      throw new NotFoundError(`Não localizado o console informado ${id}`);
     }
+    return deleteConsole;
   }
 }

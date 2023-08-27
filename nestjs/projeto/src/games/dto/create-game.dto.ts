@@ -1,4 +1,6 @@
-import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { Consoles } from 'src/consoles/models/consoles.modules';
+import { Developers } from 'src/developer/models/developers.modules';
 
 export class CreateGameDto {
   @IsString()
@@ -13,8 +15,10 @@ export class CreateGameDto {
   @IsString()
   @IsNotEmpty()
   readonly website: string;
-  @IsMongoId()
-  readonly console: string;
-  @IsMongoId()
-  readonly developer: string;
+  @IsArray()
+  @IsNotEmpty()
+  readonly consoles: Consoles[];
+  @IsArray()
+  @IsNotEmpty()
+  readonly developer: Developers[];
 }

@@ -27,7 +27,7 @@ export class ConsolesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.consolesService.findOne(+id);
+    return this.consolesService.findOne(id);
   }
 
   @Patch(':id')

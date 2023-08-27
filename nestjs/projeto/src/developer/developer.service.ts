@@ -4,6 +4,7 @@ import { UpdateDeveloperDto } from './dto/update-developer.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Developer } from './entities/developer.entity';
+import { NotFoundError } from 'src/common/types/NotFoundError';
 
 @Injectable()
 export class DeveloperService {
@@ -12,7 +13,7 @@ export class DeveloperService {
     private readonly developerModel: Model<Developer>,
   ) {}
 
-  async create(createDeveloperDto: CreateDeveloperDto) {
+  public async create(createDeveloperDto: CreateDeveloperDto) {
     try {
       const createDeveloper =
         await this.developerModel.create(createDeveloperDto);
@@ -22,37 +23,40 @@ export class DeveloperService {
     }
   }
 
-  findAll() {
+  public async findAll() {
     return this.developerModel.find();
   }
 
-  findOne(id: number) {
-    return this.developerModel.findById(id);
+  public async findOne(id: number) {
+    const FindDeveloper = this.developerModel.findById(id);
+
+    if (!FindDeveloper) {
+      throw new NotFoundError('Developer não encontrado');
+    }
+
+    return FindDeveloper;
   }
 
-  async update(id: string, updateDeveloperDto: UpdateDeveloperDto) {
+  public async update(id: string, updateDeveloperDto: UpdateDeveloperDto) {
     const filter = { _id: id };
-
-    try {
-      const updateDeveloper = await this.developerModel.findByIdAndUpdate(
-        filter,
-        updateDeveloperDto,
-        { new: true },
-      );
-      return updateDeveloper;
-    } catch (error) {
-      throw new Error(`Erro ao atualizar o developer: ${error.message}`);
+    const updateDeveloper = await this.developerModel.findByIdAndUpdate(
+      filter,
+      updateDeveloperDto,
+      { new: true },
+    );
+    if (!updateDeveloper) {
+      throw new NotFoundError(`Developer não localizado ${filter}`);
     }
+    return updateDeveloper;
   }
 
-  async remove(id: string) {
+  public async remove(id: string) {
     const filter = { _id: id };
 
-    try {
-      const deleteConsole = await this.developerModel.findOneAndDelete(filter);
-      return deleteConsole;
-    } catch (error) {
-      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    const deleteConsole = await this.developerModel.findOneAndDelete(filter);
+    if (!deleteConsole) {
+      throw new NotFoundError(`Developer não localizado ${filter}`);
     }
+    return deleteConsole;
   }
 }

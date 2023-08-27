@@ -4,6 +4,7 @@ import { UpdateGameDto } from './dto/update-game.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Games } from './models/games.modules';
 import { Model } from 'mongoose';
+import { NotFoundError } from 'src/common/types/NotFoundError';
 
 @Injectable()
 export class GamesService {
@@ -14,7 +15,7 @@ export class GamesService {
   public async create(createGameDto: CreateGameDto) {
     try {
       const createGame = await this.developerModel.create(createGameDto);
-      return createGame;
+      return createGame.save();
     } catch (error) {
       throw new Error(`Erro ao criar um game: ${error.message}`);
     }
@@ -25,32 +26,33 @@ export class GamesService {
   }
 
   findOne(id: number) {
-    return this.developerModel.findById(id);
+    const filter = { _id: id };
+    const findGame = this.developerModel.findById(id);
+    if (!findGame) {
+      throw new NotFoundError(`Jogo não localizado ${filter}`);
+    }
   }
 
   public async update(id: string, updateGameDto: UpdateGameDto) {
     const filter = { _id: id };
 
-    try {
-      const updateGame = await this.developerModel.findByIdAndUpdate(
-        filter,
-        updateGameDto,
-        { new: true },
-      );
-      return updateGame;
-    } catch (error) {
-      throw new Error(`Erro ao atualizar o game: ${error.message}`);
+    const updateGame = await this.developerModel.findByIdAndUpdate(
+      filter,
+      updateGameDto,
+      { new: true },
+    );
+    if (!updateGame) {
+      throw new NotFoundError(`Jogo não localizado ${filter}`);
     }
+    return updateGame;
   }
 
   public async remove(id: string) {
     const filter = { _id: id };
-
-    try {
-      const deleteGame = await this.developerModel.findByIdAndDelete(filter);
-      return deleteGame;
-    } catch (error) {
-      throw new Error(`Erro ao apagar o console: ${error.message}`);
+    const deleteGame = await this.developerModel.findByIdAndDelete(filter);
+    if (!deleteGame) {
+      throw new NotFoundError(`Jogo não localizado ${filter}`);
     }
+    return deleteGame;
   }
 }

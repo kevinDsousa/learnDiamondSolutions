@@ -11,5 +11,9 @@ export class CreateConsoleDto {
 
   @IsString()
   @IsNotEmpty()
+  website: string;
+
+  @IsString()
+  @IsNotEmpty()
   company: string;
 }

@@ -7,8 +7,8 @@ export interface Games extends Document {
   describe: string;
   dataRelease: Date;
   website: string;
-  developer: Developers;
+  developer: Developers[];
   gender: string;
   urlCover: string;
-  consoles: Consoles;
+  consoles: Consoles[];
 }
