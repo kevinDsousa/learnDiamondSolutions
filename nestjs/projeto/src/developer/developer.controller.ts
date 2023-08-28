@@ -35,7 +35,7 @@ export class DeveloperController {
   })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.developerService.findOne(+id);
+    return this.developerService.findOne(id);
   }
 
   @ApiResponse({ status: 409, description: 'Erro ao atualizar developers' })

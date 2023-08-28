@@ -25,9 +25,9 @@ export class GamesService {
     return this.developerModel.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     const filter = { _id: id };
-    const findGame = this.developerModel.findById(id);
+    const findGame = this.developerModel.findById(filter);
     if (!findGame) {
       throw new NotFoundError(`Jogo não localizado ${filter}`);
     }

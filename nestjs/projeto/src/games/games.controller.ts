@@ -32,7 +32,7 @@ export class GamesController {
   @ApiResponse({ status: 409, description: 'Erro ao buscar games pelo id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gamesService.findOne(+id);
+    return this.gamesService.findOne(id);
   }
 
   @ApiResponse({ status: 409, description: 'Erro ao atualizar games pelo id' })

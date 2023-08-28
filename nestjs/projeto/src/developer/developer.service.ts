@@ -27,8 +27,9 @@ export class DeveloperService {
     return this.developerModel.find();
   }
 
-  public async findOne(id: number) {
-    const FindDeveloper = this.developerModel.findById(id);
+  public async findOne(id: string) {
+    const filter = { _id: id };
+    const FindDeveloper = this.developerModel.findById(filter);
 
     if (!FindDeveloper) {
       throw new NotFoundError('Developer não encontrado');
